@@ -1,15 +1,14 @@
 import { slackApp, slackClient } from "../index";
+import getEntityListAssignments from "../lib/channelManager";
 
 const command = async () => {
 	slackApp.command("/createchannelping", async ({ context, payload }) => {
 		// check whether the user is an admin
 		if (!process.env.ADMINS?.split(",").includes(context.userId ?? "")) {
 			// check if they are a channel manager for this channel
-			const channelInfo = await slackClient.conversations.info({
-				channel: payload.channel_id ?? "",
-			});
+			const managers = await getEntityListAssignments(context.channelId);
 
-			if (channelInfo.channel?.creator !== context.userId ?? "") {
+			if (!managers.includes(context.userId ?? "")) {
 				await context.respond({
 					text: "Sorry but you aren't authorized to use this!",
 				});
