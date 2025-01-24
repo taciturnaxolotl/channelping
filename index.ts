@@ -18,8 +18,8 @@ console.log('🔑 Loading environment variables...')
 
 const slackApp = new SlackApp({
     env: {
-        SLACK_BOT_TOKEN: process.env.SLACK_BOT_TOKEN!,
-        SLACK_SIGNING_SECRET: process.env.SLACK_SIGNING_SECRET!,
+        SLACK_BOT_TOKEN: process.env.SLACK_BOT_TOKEN || '',
+        SLACK_SIGNING_SECRET: process.env.SLACK_SIGNING_SECRET || '',
         SLACK_LOGGING_LEVEL: 'INFO',
     },
     startLazyListenerAfterAck: true,
@@ -54,7 +54,7 @@ export default {
 }
 
 // loading db
-console.log(`⛁  Loading DB...`)
+console.log('⛁  Loading DB...')
 const prisma = new PrismaClient()
 // list days of analytics
 console.log(`📅 Loaded ${await prisma.analytics.count()} days of analytics.`)

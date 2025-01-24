@@ -1,6 +1,6 @@
 export default class Queue {
     private jobs: (() => void)[] = []
-    private isProcessing: boolean = false
+    private isProcessing = false
 
     enqueue(job: () => void) {
         this.jobs.push(job)

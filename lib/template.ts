@@ -9,12 +9,18 @@ interface data {
 const file = await Bun.file('lib/templates.yaml').text()
 const templatesRaw = parse(file)
 
-function flatten(obj: any, prefix: string = '') {
-    let result: any = {}
+function flatten(obj: Record<string, unknown>, prefix = '') {
+    let result: Record<string, unknown> = {}
 
     for (const key in obj) {
         if (typeof obj[key] === 'object' && Array.isArray(obj[key]) === false) {
-            result = { ...result, ...flatten(obj[key], `${prefix}${key}.`) }
+            result = {
+                ...result,
+                ...flatten(
+                    obj[key] as Record<string, unknown>,
+                    `${prefix}${key}.`
+                ),
+            }
         } else {
             result[`${prefix}${key}`] = obj[key]
         }
@@ -26,7 +32,6 @@ function flatten(obj: any, prefix: string = '') {
 const templates = flatten(templatesRaw)
 
 export function t(template: template, data: data) {
-    //    return (randomChoice(templates[template]) as string).replace(/\${(.*?)}/g, (_, key) => (data as any)[key])
     return t_format(t_fetch(template), data)
 }
 
@@ -37,7 +42,10 @@ export function t_fetch(template: template) {
 }
 
 export function t_format(template: string, data: data) {
-    return template.replace(/\${(.*?)}/g, (_, key) => (data as any)[key])
+    return template.replace(
+        /\${(.*?)}/g,
+        (_, key) => data[key as keyof data] ?? ''
+    )
 }
 
 export function randomChoice<T>(arr: T[]): T {

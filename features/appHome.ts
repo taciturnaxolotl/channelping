@@ -13,6 +13,10 @@ const appHome = async () => {
             user: payload.user,
         })
 
+        if (!user.user) {
+            return
+        }
+
         // update the home tab
         await context.client.views.publish({
             user_id: payload.user,
@@ -34,7 +38,7 @@ const appHome = async () => {
                         text: {
                             type: 'mrkdwn',
                             text: `Hi <@${
-                                user.user!.id
+                                user.user.id
                             }> to use me run \`/createchannelping\` this will only work if you own the channel. Have fun :)`,
                         },
                     },

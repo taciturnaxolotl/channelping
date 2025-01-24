@@ -4,41 +4,41 @@ const optOut = async () => {
     slackApp.command('optout-ping', async ({ context, payload }) => {
         const member = await prisma.optOutUsers.findFirst({
             where: {
-                id: context.userId!,
+                id: context.userId,
             },
         })
 
         if (
-            member?.optOutChannels.split(',').includes(payload.channel_name!) ||
+            member?.optOutChannels.split(',').includes(payload.channel_name) ||
             member?.completeOptOut
         ) {
             const message = member?.completeOptOut
                 ? 'You have opted out of all ping groups!'
                 : 'You have already opted out of the ping group for this channel!'
-            await context.respond!({
+            await context.respond({
                 text: message,
             })
             return
         }
 
-        let members: string[] = []
-
         try {
-            members = await slackClient.usergroups.users
+            await slackClient.usergroups.users
                 .list({
-                    usergroup: payload.channel_name! + '-ping',
+                    usergroup: `${payload.channel_name}-ping`,
                 })
-                .then((res) => res.users!)
+                .then((res) => res.users || [])
         } catch (e) {
             console.log(e)
-            context.respond!({
-                text: 'There is no ping group for this channel or some other error happened',
-            })
+            if (context.respond) {
+                await context.respond({
+                    text: 'There is no ping group for this channel or some other error happened',
+                })
+            }
             return
         }
 
         // ask whether to total opt out or just for this channel
-        await context.respond!({
+        await context.respond({
             text: 'Do you want to opt out of all ping groups or just this channel?',
             blocks: [
                 {
@@ -79,14 +79,16 @@ const optOut = async () => {
     slackApp.action('optout', async ({ context, payload }) => {
         const member = await prisma.optOutUsers.findFirst({
             where: {
-                id: context.userId!,
+                id: context.userId,
             },
         })
 
         if (member?.completeOptOut) {
-            await context.respond!({
-                text: 'You have already opted out of all ping groups!',
-            })
+            if (context.respond) {
+                await context.respond({
+                    text: 'You have already opted out of all ping groups!',
+                })
+            }
             return
         }
 
@@ -94,54 +96,59 @@ const optOut = async () => {
         try {
             members = await slackClient.usergroups.users
                 .list({
-                    usergroup: payload.channel?.name! + '-ping',
+                    usergroup: `${payload.channel?.name}-ping`,
                 })
-                .then((res) => res.users!)
+                .then((res) => res.users || [])
         } catch (e) {
             console.log(e)
-            context.respond!({
-                text: 'There is no ping group for this channel or some other error happened',
-            })
+            if (context.respond) {
+                await context.respond({
+                    text: 'There is no ping group for this channel or some other error happened',
+                })
+            }
             return
         }
 
-        const pinggroup = (
-            await slackClient.usergroups.list()
-        ).usergroups?.find(
-            (group) => group.handle == payload.channel?.name + '-ping'
-        )?.id
+        const pinggroup =
+            (await slackClient.usergroups.list()).usergroups?.find(
+                (group) => group.handle === `${payload.channel?.name}-ping`
+            )?.id || ''
 
         await slackClient.usergroups.users.update({
-            usergroup: pinggroup!,
-            users: members.filter((id) => id !== context.userId!),
+            usergroup: pinggroup,
+            users: members.filter((id) => id !== context.userId),
         })
 
         // @ts-expect-error
-        if (payload.actions[0].value == 'all') {
+        if (payload.actions[0].value === 'all') {
             await prisma.optOutUsers.update({
                 where: {
-                    id: context.userId!,
+                    id: context.userId,
                 },
                 data: {
                     completeOptOut: true,
                 },
             })
 
-            await context.respond!({
-                text: 'You have opted out of all ping groups!',
-            })
+            if (context.respond) {
+                await context.respond({
+                    text: 'You have opted out of all ping groups!',
+                })
+            }
 
             return
         }
 
-        const channel = payload.channel?.id!
+        const channel = payload.channel?.id || ''
 
-        let channels = member?.optOutChannels.split(',')
+        const channels = member?.optOutChannels.split(',')
 
         if (channels?.includes(channel)) {
-            await context.respond!({
-                text: 'You have already opted out of the ping group for this channel!',
-            })
+            if (context.respond) {
+                await context.respond({
+                    text: 'You have already opted out of the ping group for this channel!',
+                })
+            }
             return
         }
 
@@ -149,16 +156,18 @@ const optOut = async () => {
 
         await prisma.optOutUsers.update({
             where: {
-                id: context.userId!,
+                id: context.userId,
             },
             data: {
                 optOutChannels: channels?.join(','),
             },
         })
 
-        await context.respond!({
-            text: 'You have opted out of the ping group for this channel!',
-        })
+        if (context.respond) {
+            await context.respond({
+                text: 'You have opted out of the ping group for this channel!',
+            })
+        }
     })
 }
 
