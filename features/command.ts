@@ -7,8 +7,14 @@ const command = async () => {
 		if (!process.env.ADMINS?.split(",").includes(context.userId ?? "")) {
 			// check if they are a channel manager for this channel
 			const managers = await getEntityListAssignments(context.channelId);
+			const channelInfo = await slackClient.conversations.info({
+			  channel: context.channelId,
+      });
 
-			if (!managers.includes(context.userId ?? "")) {
+			if (
+			  !managers.includes(context.userId ?? "") &&
+			  channelInfo.channel?.creator
+			) {
 				await context.respond({
 					text: "Sorry but you aren't authorized to use this!",
 				});
