@@ -12,7 +12,7 @@ const command = async () => {
       });
 
 			if (
-			  !managers.includes(context.userId ?? "") &&
+			  !managers.includes(context.userId ?? "") ||
 			  channelInfo.channel?.creator
 			) {
 				await context.respond({
