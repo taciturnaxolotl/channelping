@@ -13,7 +13,7 @@ const command = async () => {
 
 			if (
 			  !managers.includes(context.userId ?? "") ||
-			  channelInfo.channel?.creator
+			  !channelInfo.channel?.creator
 			) {
 				await context.respond({
 					text: "Sorry but you aren't authorized to use this!",
