@@ -55,11 +55,13 @@ const createChannelPing = async () => {
 				})
 				.then((res) => res.usergroup?.id);
 		} catch (e) {
-			console.log(e);
-
-			pinggroup = (await slackClient.usergroups.list()).usergroups?.find(
-				(group) => group.handle === `${channelName}-ping`,
-			)?.id;
+			if (e instanceof Error && !e.message.includes("name_already_exists")) {
+				console.warn(e);
+			} else {
+				pinggroup = (await slackClient.usergroups.list()).usergroups?.find(
+					(group) => group.handle === `${channelName}-ping`,
+				)?.id;
+			}
 		}
 
 		if (pinggroup && members) {
@@ -70,7 +72,7 @@ const createChannelPing = async () => {
 		}
 
 		blog(
-			`Channel ping group ${channelName}-ping has been created for channel <#${payload.channel.id}> (#\${channelName}) by <@${context.userId}> with ${members?.length} members!`,
+			`Channel ping group ${channelName}-ping has been created for channel <#${payload.channel.id}> (#\\${channelName}) by <@${context.userId}> with ${members?.length} members!`,
 			"info",
 		);
 
