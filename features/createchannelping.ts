@@ -68,6 +68,11 @@ const createChannelPing = async () => {
 			});
 		}
 
+		slackClient.chat.postMessage({
+			channel: process.env.SLACK_LOG_CHANNEL || "",
+			text: `Channel ping group ${channelName}-ping has been created for channel <#${payload.channel.id}> (${payload.channel.name}) by <@${context.userId}> with ${members?.length} members!`,
+		});
+
 		if (context.respond) {
 			await context.respond({
 				text: `Channel ping group <!subteam^${pinggroup}> has been created with ${members?.length} members!`,

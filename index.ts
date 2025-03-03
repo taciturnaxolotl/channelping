@@ -6,7 +6,7 @@ import * as features from "./features/index";
 
 import { t } from "./lib/template";
 import { blog } from "./lib/Logger";
-const { version, name } = require("./package.json");
+import { version, name } from "./package.json";
 const environment = process.env.NODE_ENV;
 
 console.log(
