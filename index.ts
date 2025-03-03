@@ -70,6 +70,9 @@ blog(
 		environment,
 	}),
 	"start",
+	{
+		channel: process.env.SLACK_SPAM_CHANNEL || "",
+	},
 );
 console.log("\n----------------------------------\n");
 
