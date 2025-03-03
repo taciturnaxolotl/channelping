@@ -6,18 +6,26 @@ const command = async () => {
 		// check whether the user is an admin
 		if (!process.env.ADMINS?.split(",").includes(context.userId ?? "")) {
 			// check if they are a channel manager for this channel
-			const managers = await getEntityListAssignments(context.channelId);
-			const channelInfo = await slackClient.conversations.info({
-				channel: context.channelId,
-			});
+			try {
+				const managers = await getEntityListAssignments(context.channelId);
+				const channelInfo = await slackClient.conversations.info({
+					channel: context.channelId,
+				});
 
-			if (!managers.includes(context.userId ?? "")) {
-				if (channelInfo.channel?.creator !== context.userId) {
-					await context.respond({
-						text: "Sorry but you aren't authorized to use this!",
-					});
-					return;
+				if (!managers.includes(context.userId ?? "")) {
+					if (channelInfo.channel?.creator !== context.userId) {
+						await context.respond({
+							text: "Sorry but you aren't authorized to use this!",
+						});
+						return;
+					}
 				}
+			} catch (e) {
+				console.log(e);
+				await context.respond({
+					text: "Sorry but channel info couldn't be fetched; maybe add me to the channel?",
+				});
+				return;
 			}
 		}
 
