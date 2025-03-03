@@ -16,8 +16,9 @@ Deploying Channel Ping in a production environment is pretty easy. Simply use a 
 SLACK_BOT_TOKEN="xoxb-xxxxxxx"
 SLACK_SIGNING_SECRET="xxxxxxx"
 NODE_ENV=development
-ADMINS="U01JZQZQZQZ"
-SLACK_LOG_CHANNEL="C01JZQZQZQZ"
+ADMINS="U062UG485EE"
+SLACK_LOG_CHANNEL="C08G7F24N3T" # send creation logs here
+SLACK_SPAM_CHANNEL="C069N64PW4A" # send startup logs here
 SLACK_USER_COOKIE="utm=%7B%7D; b=.xxxx; x=xxxxx.xxxxx; ec=xxxxxxxxxxxxx; d=xoxd-xxxxxxx; lc=xxxx; d-s=xxxx; shown_ssb_redirect_page=1; shown_download_ssb_modal=1; show_download_ssb_banner=1; no_download_ssb_banner=1; tz=-300; web_cache_last_updatede80d6af2c90a6b44cca71740beeaa87a=1737750261261"
 SLACK_BROWSER_TOKEN="xoxc-xxxxxx"
 
