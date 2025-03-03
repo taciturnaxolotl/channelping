@@ -1,11 +1,12 @@
 <!-- omit in toc -->
+
 # Channel Ping!
 
 A quick bot I made to create a slack ping group for all the members of the channel in which the command is run.
 
 ## Getting Started
 
-Just follow the directions in [DOCS.md](DOCS.md) but the tldr is clone the repo run `bun install` and then start it with a systemd service 
+Just follow the directions in [DOCS.md](DOCS.md) but the tldr is clone the repo run `bun install` and then start it with a systemd service
 
 ## Production
 

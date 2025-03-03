@@ -1,48 +1,48 @@
 display_information:
-    name: Channel Pinger
-    description: A tool to help ping channels
-    background_color: '#963232'
-    long_description: They call me pinger; channel pinger; I ping channels more specificaly i create a usergroup from the members of a channel. This field is required to be more than 174 characters which this extra filler text accomplishes
+  name: Channel Pinger
+  description: A tool to help ping channels
+  background_color: "#963232"
+  long_description: They call me pinger; channel pinger; I ping channels more specificaly i create a usergroup from the members of a channel. This field is required to be more than 174 characters which this extra filler text accomplishes
 features:
-    app_home:
-        home_tab_enabled: true
-        messages_tab_enabled: false
-        messages_tab_read_only_enabled: true
-    bot_user:
-        display_name: Channel Pinger
-        always_online: false
-    slash_commands:
-        - command: /createchannelping
-          url: https://casual-renewing-reptile.ngrok-free.app/slack
-          description: Create a ping group from the members of the channel
-          should_escape: true
-        - command: /optout-ping
-          url: https://casual-renewing-reptile.ngrok-free.app/slack
-          description: opt out of getting pinged by @channel pinger
-          should_escape: true
+  app_home:
+    home_tab_enabled: true
+    messages_tab_enabled: false
+    messages_tab_read_only_enabled: true
+  bot_user:
+    display_name: Channel Pinger
+    always_online: false
+  slash_commands:
+    - command: /createchannelping
+      url: https://casual-renewing-reptile.ngrok-free.app/slack
+      description: Create a ping group from the members of the channel
+      should_escape: true
+    - command: /optout-ping
+      url: https://casual-renewing-reptile.ngrok-free.app/slack
+      description: opt out of getting pinged by @channel pinger
+      should_escape: true
 oauth_config:
-    scopes:
-        bot:
-            - channels:read
-            - chat:write
-            - chat:write.public
-            - commands
-            - groups:read
-            - im:read
-            - links:write
-            - mpim:read
-            - users.profile:read
-            - users:read
-            - usergroups:write
-            - usergroups:read
+  scopes:
+    bot:
+      - channels:read
+      - chat:write
+      - chat:write.public
+      - commands
+      - groups:read
+      - im:read
+      - links:write
+      - mpim:read
+      - users.profile:read
+      - users:read
+      - usergroups:write
+      - usergroups:read
 settings:
-    event_subscriptions:
-        request_url: https://casual-renewing-reptile.ngrok-free.app/slack
-        bot_events:
-            - app_home_opened
-    interactivity:
-        is_enabled: true
-        request_url: https://casual-renewing-reptile.ngrok-free.app/slack
-    org_deploy_enabled: false
-    socket_mode_enabled: false
-    token_rotation_enabled: false
+  event_subscriptions:
+    request_url: https://casual-renewing-reptile.ngrok-free.app/slack
+    bot_events:
+      - app_home_opened
+  interactivity:
+    is_enabled: true
+    request_url: https://casual-renewing-reptile.ngrok-free.app/slack
+  org_deploy_enabled: false
+  socket_mode_enabled: false
+  token_rotation_enabled: false

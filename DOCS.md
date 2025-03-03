@@ -1,4 +1,5 @@
 <!-- omit in toc -->
+
 # Documentation
 
 - [Getting Started](#getting-started)
@@ -31,11 +32,11 @@
 
 ### Prerequisites
 
--   Bun
--   some knowledge of typescript
--   a slack workspace
--   an enterprising mind!
--   a computer
+- Bun
+- some knowledge of typescript
+- a slack workspace
+- an enterprising mind!
+- a computer
 
 ### Installing
 
@@ -50,6 +51,7 @@ bun install
 3. Change the event url and the request url to the url of your server plus /slack
 4. Install the app to your workspace
 5. Copy the bot token and the signing secret to your environment variables under the names `SLACK_BOT_TOKEN` and `SLACK_SIGNING_SECRET` also add `NODE_ENV=development` to your environment variables and `ADMINS=your_slack_id` where `your_slack_id` is your slack id
+
 ```bash
 SLACK_BOT_TOKEN=xoxb-xxxxxxx-xxxxxxx-xxxxxxxxxxxxx
 SLACK_SIGNING_SECRET=xxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -99,9 +101,9 @@ This project uses the template system developed by [@jaspermayone](https://githu
 
 ```yaml
 app:
-    startup:
-        - "What'da know? I AM ALIVE! :heart-eng: :robot_face: and running in the env *${environment}*! :tada:"
-        - whoa! hey there! im functional ig... check me out in the env *${environment}*!
+  startup:
+    - "What'da know? I AM ALIVE! :heart-eng: :robot_face: and running in the env *${environment}*! :tada:"
+    - whoa! hey there! im functional ig... check me out in the env *${environment}*!
 ```
 
 To add a new variable simply add it to the `data` interface in `lib/template.ts` and then use it in the template file!
@@ -112,7 +114,7 @@ To add a new variable simply add it to the `data` interface in `lib/template.ts`
 
 ```typescript
 interface data {
-    environment?: string
+	environment?: string;
 }
 ```
 
@@ -123,7 +125,7 @@ The types for the template are sadly not automatically generated so you will hav
 #### Template Type Example:
 
 ```typescript
-type template = 'app.startup'
+type template = "app.startup";
 ```
 
 ### Logging System
@@ -138,12 +140,12 @@ The system is stored in `lib/Logger.ts` and its queuing system is stored in `lib
 
 ```typescript
 async function slog(
-    logMessage: string,
-    location?: {
-        thread_ts?: string
-        channel: string
-    }
-): Promise<void>
+	logMessage: string,
+	location?: {
+		thread_ts?: string;
+		channel: string;
+	},
+): Promise<void>;
 ```
 
 #### Clog
@@ -151,9 +153,9 @@ async function slog(
 `clog` is for sending messages to the console and takes a `logMessage` string and a manditory `type` string that is the type of the message (info, warn, error, etc) and logs the message to the console with a color based on the type.
 
 ```typescript
-async function clog(logMessage: string, type: LogType): Promise<void>
+async function clog(logMessage: string, type: LogType): Promise<void>;
 
-type LogType = 'info' | 'start' | 'cron' | 'error'
+type LogType = "info" | "start" | "cron" | "error";
 ```
 
 #### Blog
@@ -162,15 +164,15 @@ type LogType = 'info' | 'start' | 'cron' | 'error'
 
 ```typescript
 async function blog(
-    logMessage: string,
-    type: LogType,
-    location?: {
-        thread_ts?: string
-        channel: string
-    }
-): Promise<void>
+	logMessage: string,
+	type: LogType,
+	location?: {
+		thread_ts?: string;
+		channel: string;
+	},
+): Promise<void>;
 
-type LogType = 'info' | 'start' | 'cron' | 'error'
+type LogType = "info" | "start" | "cron" | "error";
 ```
 
 ### Feature system
@@ -185,16 +187,16 @@ The feature system is based on writing your features as seperate independent fil
 
 ```typescript
 const feature = async (): Promise<void> => {
-    // do something
-}
+	// do something
+};
 
-export default feature
+export default feature;
 ```
 
 `features/index.ts`
 
 ```typescript
-export { default as feature } from './feature'
+export { default as feature } from "./feature";
 ```
 
 ## Contributing
